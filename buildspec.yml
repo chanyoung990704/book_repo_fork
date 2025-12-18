@@ -1,0 +1,16 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: 17
+    commands:
+      - chmod +x ./gradlew
+  build:
+    commands:
+      - ./gradlew build
+
+artifacts:
+  files:
+    - build/libs/*.jar
+  discard-paths: yes
