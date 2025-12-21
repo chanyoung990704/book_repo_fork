@@ -1,0 +1,43 @@
+# 1. 애플리케이션 실제 배포 설정 (Deployment)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-demo-app
+spec:
+  replicas: 1  # 서버를 1대만 유지해요 [web:124]
+  selector:
+    matchLabels:
+      app: spring-demo
+  template:
+    metadata:
+      labels:
+        app: spring-demo
+    spec:
+      containers:
+        - name: spring-container
+          # CodePipeline의 EKS 액션이 아래 image 태그를 자동으로 새 ECR 주소로 갈아끼워줍니다 [web:19]
+          image: <YOUR_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/<REPO_NAME>:latest
+          ports:
+            - containerPort: 8080  # 스프링 부트의 기본 포트예요 [web:124]
+          resources:  # EKS 자율 모드가 효율적으로 서버를 빌려오게 돕는 힌트예요 [web:97][web:130]
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
+
+---
+# 2. 외부 접속 통로 설정 (Service)
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-demo-service
+spec:
+  type: LoadBalancer  # AWS 로드밸런서를 자동으로 생성해 외부 주소를 줘요 [web:127][web:128]
+  selector:
+    app: spring-demo
+  ports:
+    - protocol: TCP
+      port: 80        # 사용자가 접속할 포트
+      targetPort: 8080 # 서버 내부 포트 [web:127]
