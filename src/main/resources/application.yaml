@@ -11,4 +11,4 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create #
-      show-sql: true # what sql query is being made
+      show-sql: true # what sql query is being mad
