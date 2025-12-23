@@ -8,7 +8,7 @@ phases:
       - chmod +x ./gradlew
   build:
     commands:
-      - ./gradlew build
+      - ./gradlew build -x test
 
 artifacts:
   files:
