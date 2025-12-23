@@ -1,14 +1,18 @@
 spring:
   datasource:
-    driver-class-name: org.h2.Driver # db name
-    url: jdbc:h2:~/bookdb # ~/ = home directory
-    username: sa
-    password: 1234
-  h2:
-    console:
-      enabled: true # I want to see it on browser (console)
-      path: /h2-console # localhost:8080/h2-console
+    # 1. 드라이버를 MySQL용으로 교체해요 [web:56]
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 2. RDS 엔드포인트와 생성한 데이터베이스(bookdb) 정보를 입력해요 [web:68]
+    url: jdbc:mysql://database-a081196.ceq2mnp4ry1v.us-east-2.rds.amazonaws.com:3306/bookdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+    username: admin
+    password: 12345678 # RDS 생성 시 설정한 비밀번호
+
   jpa:
     hibernate:
-      ddl-auto: update #
-      show-sql: true # what sql query is being mad
+      # 3. 개발 초기에는 update가 편하지만, 실제 운영 시엔 none이나 validate를 권장해요 [web:61]
+      ddl-auto: update
+      show-sql: true
+    properties:
+      hibernate:
+        format_sql: true # SQL을 예쁘게 출력해줍니다
+        dialect: org.hibernate.dialect.MySQLDialect # MySQL 전용 문법 사용 [web:68]

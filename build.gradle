@@ -25,29 +25,29 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+	// Spring Boot Starters
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
 	// Lombok
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 
-    // H2
-    runtimeOnly 'com.h2database:h2'
+	// [핵심 변경] MySQL Connector 추가 (H2는 제거됨)
+	runtimeOnly 'com.mysql:mysql-connector-j'
 
-    // Devtools
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	// Devtools
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-    // ★ MapStruct ★
-    implementation 'org.mapstruct:mapstruct:1.6.0'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.0'
+	// ★ MapStruct ★
+	implementation 'org.mapstruct:mapstruct:1.6.0'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.0'
 
-    // Test
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// Test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
-
 
 tasks.named('test') {
 	useJUnitPlatform()
